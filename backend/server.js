@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { db } from "./config.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ROUTES
 app.use("/auth", authRoutes);
 app.use("/elszamolas", elszamolasRoutes);
 app.use("/szerviz", szervizRoutes);
@@ -25,6 +27,12 @@ app.use("/szabadsag", szabadsagRoutes);
 app.use("/kifizetes", kifizetesRoutes);
 app.use("/users", usersRoutes);
 
+// MYSQL TESZT
+db.getConnection()
+    .then(() => console.log("MySQL kapcsolat sikeresen létrejött"))
+    .catch(err => console.error("MySQL hiba:", err));
+
+// SERVER INDÍTÁS
 app.listen(3000, () => {
     console.log("HS Manager backend fut a 3000-es porton");
 });
